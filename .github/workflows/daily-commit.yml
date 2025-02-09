@@ -1,0 +1,26 @@
+name: Daily Commit Workflow
+
+on:
+  schedule:
+    # This will trigger the action once per day at 12:00 PM UTC
+    - cron: '0 12 * * *'
+
+jobs:
+  daily_commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Add a commit
+      run: |
+        echo "Daily commit at $(date)" >> daily_update.txt
+        git config --global user.email "21f3001383@ds.study.iitm.ac.in"
+        git config --global user.name "DevSync Automation"
+        git add daily_update.txt
+        git commit -m "Automated daily update"
+        git push
+
+    - name: Verify commit creation
+      run: echo "Commit created successfully"
